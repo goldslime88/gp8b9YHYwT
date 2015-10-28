@@ -1,0 +1,37 @@
+Branch Predictor Project
+----------------------------------------------------------------------
+
+Instructions:
+
+1) Find the source code in this tar file (directory src) and cd
+to that directory.
+
+2) Make the predictor (run make in your working source directory).
+
+3) Run the predictor
+(bunzip2 -c -k ../traces/DIST-INT-1.bz2 | ./predictor)
+where DIST-INT-1.bz is one of the trace files.
+./predictor reads (in a binary format) from STDIN a trace
+(decompressed with bzip2 on the fly). It outputs to STDOUT basic
+statistics about how well the predictor did.
+
+4) Create your own predictor.C file and predictor.h file (or modify
+the existing ones).  Be sure to read the long comment at the beginning
+of the provided predictor.h and follow it's directions.  Just make
+sure your predictor implements the three functions exactly as their
+specification reads (init_predictor, make_prediction, and
+train_predictor).  The only two files of yours you will turn in are
+predictor.h and predictor.C.  All other source files (and makefile)
+will remain the same.
+
+5) Submit your predictor.C and predictor.h files along with your
+report (details of this specified on the webpage).  Email them to
+Rajib (rknath@cs.ucsd.edu) with subject line: "CSE240A Project 1"
+
+Branch prediction is performed by a tournament branch prediction algorithm. The algorithm was developed by Scott McFarling at Digital's Western Research Laboratory (WRL) and was described in a 1993 paper. This predictor was used as the Alpha 21264 has a minimum branch misprediction penalty of seven cycles. Due to the instruction cache's two cycle latency and the instruction queues, the average branch misprediction penalty is 11 cycles. The algorithm maintains two history tables, Local and Global, and the table used to predict the outcome of a branch is determined by a Choice predictor.
+
+The local predictor is a two-level table which records the history of individual branches. It consists of a 1,024-entry by 10-bit branch history table. A two-level table was used as the prediction accuracy is similar to that of a larger single-level table while requiring fewer bits of storage. It has a 1,024-entry branch prediction table. Each entry is a 3-bit saturating counter. The value of the counter determines whether the current branch is taken or not taken.
+
+The global predictor is a single-level, 4096-entry branch history table. Each entry is a 2-bit saturating counter; the value of this counter determines whether the current branch is taken or not taken.
+
+The choice predictor records the history of the local and global predictors to determine which predictor is the best for a particular branch. It has a 4,096-entry branch history table. Each entry is a 2-bit saturating counter. The value of the counter determines if the local or global predictor is used.
