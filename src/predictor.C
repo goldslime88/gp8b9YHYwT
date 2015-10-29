@@ -1,8 +1,6 @@
 #include "predictor.h"
 
 
-
-
 void init_predictor ()
 {	
 	for(int i = 0; i < MAX_TABLE_SIZE; ++i){
@@ -48,7 +46,8 @@ bool make_prediction (unsigned int pc)
 	}
 	else{
 		//Global
-		int index = (shift_hist ^ pc) & GLOBAL_MASK;
+		int index = (shift_hist << 3 ^ !(shift_hist << 7) ^ shift_hist << 11 ^ 
+			!(shift_hist << 8) ^ pc) & GLOBAL_MASK;
 		int global_res = bit_arr[index];
 		if(global_res == 0||global_res == 1){
 			return false;
@@ -111,7 +110,8 @@ void train_predictor (unsigned int pc, bool outcome)
 	hist_arr[index1] = (hist_arr[index1]<<1)|outcome;
 	
 	//Global
-	int index = ( shift_hist ^ pc ) & GLOBAL_MASK;
+	int index = (shift_hist << 3 ^ !(shift_hist << 7) ^ shift_hist << 11 ^ 
+		!(shift_hist << 8) ^  pc) & GLOBAL_MASK;
 	int global_res = bit_arr[index];
 
 	if(global_res == 0){

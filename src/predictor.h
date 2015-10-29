@@ -16,14 +16,14 @@
   concerned about the memory used by the simulated branch predictor.
 */
 
-#define MAX_TABLE_SIZE 512
+#define MAX_TABLE_SIZE 256
 #define PATTERN_SIZE 16
-#define LOCAL_TABLE_MASK 0x01FF
+#define LOCAL_TABLE_MASK 0x00FF
 #define LOCAL_PATTERN_MASK 0x000F
 
-#define MAX_GLOBAL_SIZE 4096
-#define G_LENGTH 12
-#define GLOBAL_MASK 0x0FFF
+#define MAX_GLOBAL_SIZE 8192
+#define G_LENGTH 13
+#define GLOBAL_MASK 0x1FFF
 
 #define PREDICT_SIZE 2048
 #define PREDICT_LENGTH 11
@@ -41,9 +41,6 @@ static uint8_t bit_arr[MAX_GLOBAL_SIZE];
 //Predictor to predictor
 //0,1->Local, 2,3->Gshare
 static uint8_t vote_arr[PREDICT_SIZE];
-
-
-
 
 /*
   Initialize the predictor.
